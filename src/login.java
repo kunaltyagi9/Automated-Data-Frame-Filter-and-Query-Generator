@@ -3,10 +3,11 @@ import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class login extends JFrame{
+public class login extends JFrame implements ActionListener{
 	
 	JLabel l1,l2,l3;
-	JTextField t1,t2;
+	JTextField t1;
+	JPasswordField p1; 
 	JButton b1,b2;
 	JCheckBox c1;
 	 
@@ -17,10 +18,10 @@ public class login extends JFrame{
 		t1 = new JTextField();
 		
 		l2 = new JLabel("Password");
-		t2 = new JTextField();
+		p1 = new JPasswordField();
 		
 		b1 = new JButton("Login");
-		b2 = new JButton("Reset");
+		b2 = new JButton("Clear");
 		
 		c1 = new JCheckBox("Show Password");
 		
@@ -39,8 +40,8 @@ public class login extends JFrame{
 		l2.setBounds(150,80,100,20);
 		add(l2);
 		
-		t2.setBounds(250,80,200,20);
-		add(t2);
+		p1.setBounds(250,80,200,20);
+		add(p1);
 		
 		c1.setBounds(250,110,200,15);
 		add(c1);
@@ -68,10 +69,38 @@ public class login extends JFrame{
 		
 		c1.setBackground(Color.white);
 		
+		b1.addActionListener(this);
+		b2.addActionListener(this);
+		
 	}
 	
 	public void actionPerformed(ActionEvent ae){
-		
+		try{
+			conn c1 = new conn();
+			System.out.println("Connected to : "+c1);
+			String a = t1.getText();
+			String b = p1.getText();
+			
+			String q = "select * from login where username = '" + a + "' and password = '" + b + "' ";
+			
+			ResultSet rs = c1.s.executeQuery(q);
+			
+			if(ae.getSource()==b1){
+				if(rs.next()){		
+					new Index().setVisible(true);
+					this.setVisible(false);
+				}else{
+					JOptionPane.showMessageDialog(null,"Incorrect Username or Password");
+					setVisible(false);
+				}
+			
+			}else if(ae.getSource()==b2){
+				t1.setText("");
+				p1.setText("");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args){

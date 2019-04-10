@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-public class Index extends JFrame{
+public class Index extends JFrame implements ActionListener{
 	
 	JLabel l1;
 	JMenuBar mb1;
@@ -15,13 +15,14 @@ public class Index extends JFrame{
 		
 		
 		mb1 = new JMenuBar();
-		m1 = new JMenu("Create");
+		m1 = new JMenu("File");
 		m2 = new JMenu("Modify");
 		m3 = new JMenu("Utilities");
 		m4 = new JMenu("Exit");
 		
 		
-		i9 = new JMenuItem("Create Table");
+		i9 = new JMenuItem("Read File");
+
 		
 		i2 = new JMenuItem("Insert");
 		i3 = new JMenuItem("Update");
@@ -82,10 +83,35 @@ public class Index extends JFrame{
 		i7.setBackground(Color.WHITE);
 		i8.setBackground(Color.WHITE);
 		i9.setBackground(Color.WHITE);
+		
+		i5.addActionListener(this);
+		i6.addActionListener(this);
+		i9.addActionListener(this);
+		
 	}
 	
 	public void actionPerformed(ActionEvent ae){
-	
+		String msg = ae.getActionCommand();
+		
+		if(ae.getSource()==i9){
+			new ReadFile().setVisible(true);
+		}else if(ae.getSource()==i5){
+			try{
+				Runtime.getRuntime().exec("notepad.exe");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else if(msg.equals("Calculator")){
+			try{
+				Runtime.getRuntime().exec("calc.exe");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else if(msg.equals("Web Browser")){
+					
+		}else if(msg.equals("Exit")){
+			System.exit(0);
+		}
 	}
 	
 	public static void main(String[] args){
