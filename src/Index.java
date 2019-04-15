@@ -86,6 +86,7 @@ public class Index extends JFrame implements ActionListener{
 		
 		i5.addActionListener(this);
 		i6.addActionListener(this);
+		i8.addActionListener(this);
 		i9.addActionListener(this);
 		
 	}
@@ -109,7 +110,7 @@ public class Index extends JFrame implements ActionListener{
 			}
 		}else if(msg.equals("Web Browser")){
 					
-		}else if(msg.equals("Exit")){
+		}else if(ae.getSource()==i8){
 			System.exit(0);
 		}
 	}
