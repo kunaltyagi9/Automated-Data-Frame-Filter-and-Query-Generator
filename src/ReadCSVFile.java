@@ -77,8 +77,7 @@ public class ReadCSVFile extends JFrame implements ActionListener{
                 BufferedReader brd = new BufferedReader(new FileReader(DataFile));
                 while (brd.ready()) {
                     String st = brd.readLine();
-                    OneRow = st.split("\\"
-                    		+ ";");  //s
+                    OneRow = st.split("\\" + ";");  //s
                     Rs.add(OneRow);
                     
                 }

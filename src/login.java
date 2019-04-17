@@ -77,7 +77,7 @@ public class login extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent ae){
 		try{
 			conn c1 = new conn();
-			System.out.println("Connected to : "+c1);
+			
 			String a = t1.getText();
 			String b = p1.getText();
 			

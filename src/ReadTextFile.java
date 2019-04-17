@@ -42,13 +42,17 @@ public class ReadTextFile extends JFrame implements ActionListener{
 		DefaultTableModel model = null;
 
 		try {
+		
 			BufferedReader txtReader = new BufferedReader(new FileReader(file));
 			String header = txtReader.readLine();
+			System.out.println(header);
 			model = new DefaultTableModel(header.split("\\|"),0);
 			String line;
 			while ((line = txtReader.readLine()) != null) {
 				model.addRow(line.split("\\|"));
+				
 			}
+			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -65,12 +69,16 @@ public class ReadTextFile extends JFrame implements ActionListener{
     	chooser.addChoosableFileFilter(restrict);
     	
     	
-		int result = chooser.showOpenDialog(table);
+		int result = chooser.showOpenDialog(this);
 		if(result == JFileChooser.APPROVE_OPTION) {
 			File file = chooser.getSelectedFile();
 			DefaultTableModel model = createModel(file);
 			table.setModel(model);
 		}
+		
+		
+		
+		
 	}
 
 	public static void main(String[] args) {

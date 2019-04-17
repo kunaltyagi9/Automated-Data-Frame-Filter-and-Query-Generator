@@ -1,26 +1,17 @@
 import java.awt.*;
-
 import java.awt.event.*;
+
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.io.*;
+
 import javax.swing.filechooser.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.html.HTMLDocument.Iterator;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
 
 public class ReadFile extends JFrame implements ActionListener{
 
@@ -98,117 +89,8 @@ public class ReadFile extends JFrame implements ActionListener{
         
         
         }else if(chooseFile.equals("xml")){
-        	
-        	//Restrict the extension of the file
-        	FileNameExtensionFilter restrict = new FileNameExtensionFilter("Only .xml files", chooseFile); 
-        	j.addChoosableFileFilter(restrict);
-        	
-        	
-        	int r = j.showOpenDialog(null); 
-            
-            if (r == JFileChooser.APPROVE_OPTION) { 
-            	//Opening the Raw XML File
-            	File file = j.getSelectedFile();
-            	FileInputStream ins = null;
-                FileOutputStream outs = null;
-            	try{
-            		//Parsing of XML File          
-                	FileWriter file2=new FileWriter("C:/Users/768970/Desktop/Databases/AllDatabase1.txt"); 
-                	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                    try {
-                    	DocumentBuilder builder = factory.newDocumentBuilder();
-                    	Document doc = builder.parse(file);
-
-                    	NodeList nodes = doc.getElementsByTagName("*");
-                    	
-                    	//----------- Getting the child nodes to make columns -----------------
-                    	Set s = new LinkedHashSet();
-                    	
-                    	for (int i = 0 ; i < nodes.getLength() ; i++){
-                    			String str = null;
-                   				if(nodes.item(i) instanceof Element)
-                   				{
-                   					Element ele = (Element) nodes.item(i);
-                   					str = ele.getNodeName();
-                   					s.add(str);
-                   				}
-                   				
-                   				// ------------- Copying the content after Parsing ----------------
-                   				
-                    			String str1 = nodes.item(i).getTextContent();
-                    			String result = str1.trim();
-                    			file2.write(result);
-             
-                    	}
-                    	//System.out.println(s);
-                    	file2.close();
-                    	
-                    
-                    	
-                    	//Fetching the data from AllDatabase.txt File and pasting it on TextArea (GUI) 
-                    	
-                    	BufferedReader br = new BufferedReader(new FileReader("C:/Users/768970/Desktop/Databases/AllDatabase1.txt"));
-                    	String everything ;
-                    	try {
-                    	    StringBuilder sb = new StringBuilder();
-                    	    String line = br.readLine();
-
-                    	    while (line != null) {
-                    	        sb.append(line);
-                    	        sb.append(System.lineSeparator());
-                    	        line = br.readLine();
-                    	       
-                    	    }
-                    	    everything = sb.toString();
-                    	} finally {
-                    	    br.close();
-                    	}
-                    	tarea.setText(everything);
-  
-                    	
-                    	
-                    	
-                        
-                        
-                    
-                    	//-------------------- Making heading of JTable by putting the data in an array -------------------------------------
-                    	
-                    	String[] columnheading = new String[s.size()];
-                    	int i = 0;
-                    	for ( Object o : s )
-                    	{
-                    		columnheading[i] = (String)o;
-                    		//System.out.print(columnheading[i]);
-                    		i++;
-                    	}
-                    	
-                    	
-                    	//Object[] rowdata = everything.split("\n");
-                    	//table1 = new JTable((Object[][]) rowdata, columnheading);
-                    	
-                    	System.out.println(everything);
-                    	
-                    	
-                  
-                    	
-                    	
-                    }catch (Exception e) {
-                    	e.printStackTrace();
-                    }
-                    finally{
-                    	file2.close();
-                    }
-                    
-            	}catch(Exception e){
-            		e.printStackTrace();
-            	}
-            	
-            }else{
-            	JOptionPane.showMessageDialog(null, "Operation is CANCELLED :(");   	
-            }
-        	
-        	
-        	
+        	new ReadXMLFile();
+        	this.setVisible(false);
         	
         }
         
