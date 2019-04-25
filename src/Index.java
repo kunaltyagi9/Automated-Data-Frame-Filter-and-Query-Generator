@@ -8,7 +8,7 @@ public class Index extends JFrame implements ActionListener{
 	JLabel l1;
 	JMenuBar mb1;
 	JMenu m1,m2,m3,m4;
-	JMenuItem i2,i3,i4,i5,i6,i7,i8,i9;
+	JMenuItem i2,i3,i4,i5,i6,i7,i8,i9,i10;
 	
 	Index(){
 		super("Oracle Forms");
@@ -22,6 +22,7 @@ public class Index extends JFrame implements ActionListener{
 		
 		
 		i9 = new JMenuItem("Read File");
+		i10 = new JMenuItem("Read from Database");
 
 		
 		i2 = new JMenuItem("Insert");
@@ -36,6 +37,7 @@ public class Index extends JFrame implements ActionListener{
 		i8 = new JMenuItem("Exit");
 		
 		m1.add(i9);
+		m1.add(i10);
 		
 		m2.add(i2);
 		m2.add(i3);
@@ -83,11 +85,13 @@ public class Index extends JFrame implements ActionListener{
 		i7.setBackground(Color.WHITE);
 		i8.setBackground(Color.WHITE);
 		i9.setBackground(Color.WHITE);
+		i10.setBackground(Color.WHITE);
 		
 		i5.addActionListener(this);
 		i6.addActionListener(this);
 		i8.addActionListener(this);
 		i9.addActionListener(this);
+		i10.addActionListener(this);
 		
 	}
 	
@@ -96,6 +100,8 @@ public class Index extends JFrame implements ActionListener{
 		
 		if(ae.getSource()==i9){
 			new ReadFile().setVisible(true);
+		}else if(ae.getSource()==i10){
+			new ReadTables().setVisible(true);
 		}else if(ae.getSource()==i5){
 			try{
 				Runtime.getRuntime().exec("notepad.exe");

@@ -181,6 +181,8 @@ public class ReadXMLFile extends JFrame implements ActionListener{
     				System.out.println();
     			}
     			
+   
+    			
     			table = new JTable(rows, col);
     			pane = new JScrollPane(table);
     		

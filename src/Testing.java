@@ -9,14 +9,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
-public class ReadCSVFile extends JFrame implements ActionListener{
+public class Testing extends JFrame implements ActionListener{
     
 	JTable table;
 	JButton b1;
 	public static String heading[] =  {"abcsd"};
 	String header;
 
-    public ReadCSVFile() {
+    public Testing() {
     	super("CSV File Data in the form of Table");
 
         b1 = new JButton("Read File");
@@ -148,7 +148,7 @@ public class ReadCSVFile extends JFrame implements ActionListener{
     }
 
     public static void main(String[] args) {
-        new ReadCSVFile();
+        new Testing();
     }
 }
 

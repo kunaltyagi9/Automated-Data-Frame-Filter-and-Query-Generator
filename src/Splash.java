@@ -27,6 +27,7 @@ class fframe extends JFrame implements Runnable{
 		super("Oracle Form Workbench");
 		setLayout(new FlowLayout());
 		ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("Images/splashImage.png"));
+		
 		Image i2 = i1.getImage().getScaledInstance(730, 550, Image.SCALE_DEFAULT);
 		ImageIcon i3 = new ImageIcon(i2);
 		JLabel l1 = new JLabel(i3);
