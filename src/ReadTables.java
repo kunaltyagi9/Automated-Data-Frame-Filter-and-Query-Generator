@@ -2,13 +2,16 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
 
 public class ReadTables extends JFrame implements ActionListener{
 
-	JButton button1,button2, button3, button4;
+	JButton button1,button2, button3, button4, button5;
 	ArrayList<String> list = new ArrayList<String>(), list2 = new ArrayList<String>(), list3 = new ArrayList<String>();
 	//selectedColumns = new ArrayList<String>();
 	Panel panel,panel2[],panel3[];
@@ -18,9 +21,11 @@ public class ReadTables extends JFrame implements ActionListener{
 	JScrollPane pane[],pane1,newPane;
 	ArrayList<Integer> totalColumns = new ArrayList<Integer>();
 	ArrayList<String> getSelectedColumns = new ArrayList<String>(), insertColumns = new ArrayList<String>(), getTableName = new ArrayList<String>(), getTable = new ArrayList<String>(), getColumn = new ArrayList<String>();
-	String gcolumn[][];
+	String gcolumn[][],newTable[][];
 	JLabel tableName[];
 	int var;
+	int countColumns[];
+	String newColumn[];
 
 	
 	ReadTables(){
@@ -41,6 +46,10 @@ public class ReadTables extends JFrame implements ActionListener{
 		button4 = new JButton("Form Table");
 		button4.setBackground(Color.BLACK);
 		button4.setForeground(Color.WHITE);
+		
+		button5 = new JButton("Download");
+		button5.setBackground(Color.BLACK);
+		button5.setForeground(Color.WHITE);
 
 
 		setLayout(null);
@@ -99,6 +108,7 @@ public class ReadTables extends JFrame implements ActionListener{
 				panel.setBounds(50,80,400,400);
 				add(panel);
 				
+				button1.setEnabled(false);
 			
 				this.repaint();
 				setVisible(true);
@@ -215,6 +225,8 @@ public class ReadTables extends JFrame implements ActionListener{
 						pane[i].setBounds(40+(i-2)*350,330,310,200);
 					}
 					
+					
+					button2.setEnabled(false);;
 					pane[i].setBackground(Color.WHITE);
 					add(tableName[i]);
 					add(pane[i]); 
@@ -235,6 +247,7 @@ public class ReadTables extends JFrame implements ActionListener{
 					count++;
 				}
 			}
+			
 
 			var = count;
 			int counter = 0;
@@ -266,9 +279,9 @@ public class ReadTables extends JFrame implements ActionListener{
 					counter++;
 				}
 				
-				
-		
-				
+			
+				//button4.setEnabled(false);
+				button3.setVisible(false);
 				panel3[i].setLayout(new GridLayout(totalColumns.get(i),1));
 				panel3[i].setBackground(Color.WHITE);
 				setSize(800,900);
@@ -279,19 +292,67 @@ public class ReadTables extends JFrame implements ActionListener{
 			}
 			setLayout(null);
 			
+			//button5 -- started
+			class handler2 implements ActionListener{
+				public void actionPerformed(ActionEvent e){
+					JOptionPane.showMessageDialog(null, "Data Downloaded");
+					setVisible(false);
+					
+					StringBuilder builder2 = new StringBuilder();
+					for(int i = 0; i < newColumn.length; i++){
+						   
+					      builder2.append(newColumn[i]+"");
+					      if(i < newColumn.length - 1)
+					         builder2.append("|");
+					  
+					}
+					
+					 builder2.append("\n");
+					
+					StringBuilder builder = new StringBuilder();
+					for(int i = 0; i < newTable.length; i++){
+					   for(int j = 0; j < newTable.length; j++){
+						  
+						   if(newTable[i][j]!=null){
+						  
+							  builder.append(newTable[i][j]+"");
+							  if(j < newTable.length - 1)
+								  builder.append("|");
+					   }
+					   }
+					   builder.append("\n");
+					}
+					
+					BufferedWriter writer = null;
+					try {
+						writer = new BufferedWriter(new FileWriter("C:/Users/768970/Desktop/Databases/download.txt"));
+						writer.write(builder2.toString());
+						writer.write(builder.toString());
+						writer.close();
+					}catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+				
+			
 			//button 4 -- started
 			class handler1 implements ActionListener{
 				public void actionPerformed(ActionEvent e){
 					
-					System.out.println("Clalled");
+					conn c1 = new conn();
 					
+					
+					//Set Visible false to repaint the frame
 					table.setVisible(false);
-					
 					panel.setVisible(false);
 					button1.setVisible(false);
 					button2.setVisible(false);
 					button3.setVisible(false);
 					button4.setVisible(false);
+				
+					
 					
 					for(int i = 0 ; i < list2.size() ; i++){
 						panel3[i].setVisible(false);
@@ -300,96 +361,93 @@ public class ReadTables extends JFrame implements ActionListener{
 					}
 				
 			
-					
-					int count1 = 0, k = 0;
-					System.out.println("--------------------------------------------------\n ");
+					//Getting the columns selected by the user
+					int k = 0;
 					for(int i = 0 ; i < var ; i++){
 						if(c2[i].isSelected()){
-							System.out.println("insert columns : "+insertColumns.get(i));
-							getSelectedColumns.add(insertColumns.get(i));
+							getSelectedColumns.add(insertColumns.get(i));								
 							k++;
 						}
 					}
 					
-					
-					int k1 = 0, k2=0;
+					//Made an array to make a count the no. of columns selected by the user from each table
+					countColumns  = new int[5];
+				
+					int k1 = 0, k2=0,count=0, counter2 = 0;
 					boolean flag = false;
 					for(int i = 0 ; i < list2.size() ; i++){
 						for(int j = 0 ; j < totalColumns.get(i) ; j++){
 							if(getSelectedColumns.get(k1).equals(insertColumns.get(k2))){
-								
+							
 								getTable.add(list2.get(i));
-								getColumn.add(getSelectedColumns.get(k1));
-								System.out.println("selected colums are : "+getSelectedColumns.get(k1));
-								System.out.println(list2.get(i));
+								getColumn.add(getSelectedColumns.get(k1));									
+								count++;
 								++k1;
 							}
 							if(getSelectedColumns.size()==k1){
 								flag = true;
 								break;
 							}
+							
 							k2++;
+							
+						}
+						if(count!=0){
+
+							countColumns[counter2] = count;
+							counter2++;
+							count = 0;	
 						}
 						if(flag){
 							break;
 						}
-						
-					}
 					
-					String newTable[][] = new String[getColumn.size()][20];
-					String newColumn[] = new String[getColumn.size()];
+					}
+	
+					int counter = 0;
+					newTable = new String[10][10];
+					newColumn = new String[getColumn.size()];
 					int cCount = 0, rCount = 0, countCol = 0;
 					try{
-						conn c1 = new conn();
 						
-						
-						for(int i = 0 ; i < getTable.size() ; i++){ 
-							for(int j = 0 ; j < getColumn.size() ; j++){
+						for(int i = 0 ; i < getTable.size() ; i++){
+							
+							for(int j = 0 ; j < countColumns[i] ; j++){
+							
+								String q = "select "+getColumn.get(counter)+" from "+getTable.get(i)+"";
 								
-								
-								System.out.println("getTable.size() : "+getTable.size());  //4
-								System.out.println("getColumnSize() : "+getColumn.size()); //4
-								
-								
-								
-								String q = "select "+getColumn.get(j)+" from "+getTable.get(i)+"";
-								
-								System.out.println(q);
-
 								ResultSet rs = c1.s.executeQuery(q);
 								
-								System.out.println("After result set : "+rs);
-								
 								while(rs.next()){
-									
-									System.out.println("Inside while");
-									
-							
-										newTable[rCount][cCount] = rs.getString(1);
+										newTable[cCount][rCount] = rs.getString(1);
 										cCount++;
-										System.out.println("After while");
 								}
 								cCount = 0;
 								rCount++;
-								newColumn[countCol] = getColumn.get(j);
+								newColumn[countCol] = getColumn.get(counter);
 								countCol++;
+								counter++;
+								}
 								
-							}
 						}
-								
 								
 						newJointTable = new JTable(newTable ,newColumn);
 						newJointTable.setBackground(Color.WHITE);
 					
-						
-
 						newPane = new JScrollPane(newJointTable);
 			    		newPane.setBackground(Color.WHITE);
 						
+			    		repaint();
 						setLayout(null);
-						add(newPane);
-						repaint();
 						
+						newPane.setBounds(10,10,550,400);
+						add(newPane);
+						
+						button5.setBounds(10,420,100,30);
+						add(button5);
+						
+						handler2 thehandler2 =new handler2();
+						button5.addActionListener(thehandler2);
 						
 					}catch(Exception ex){
 						ex.printStackTrace();
