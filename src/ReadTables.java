@@ -13,8 +13,7 @@ public class ReadTables extends JFrame implements ActionListener{
 
 	JButton button1,button2, button3, button4, button5;
 	ArrayList<String> list = new ArrayList<String>(), list2 = new ArrayList<String>(), list3 = new ArrayList<String>();
-	//selectedColumns = new ArrayList<String>();
-	Panel panel,panel2[],panel3[];
+	Panel panel,panel2[],panel3[],panel4[];
 	JCheckBox[] c,c2;
 	JTable table,newJointTable;
 	String row[][];
@@ -22,7 +21,7 @@ public class ReadTables extends JFrame implements ActionListener{
 	ArrayList<Integer> totalColumns = new ArrayList<Integer>();
 	ArrayList<String> getSelectedColumns = new ArrayList<String>(), insertColumns = new ArrayList<String>(), getTableName = new ArrayList<String>(), getTable = new ArrayList<String>(), getColumn = new ArrayList<String>();
 	String gcolumn[][],newTable[][];
-	JLabel tableName[];
+	JLabel tableName[], tname[];
 	int var;
 	int countColumns[];
 	String newColumn[];
@@ -83,7 +82,7 @@ public class ReadTables extends JFrame implements ActionListener{
 				conn c1 = new conn();
 			
 				//selecting the tables created after the given date
-				String q = "SELECT object_name FROM dba_objects WHERE object_type = 'TABLE' AND owner = 'SYSTEM' AND owner = 'SYSTEM' AND created >= to_date('08-APR-2019','DD-MON-YYYY')";
+				String q = "SELECT object_name FROM dba_objects WHERE object_type = 'TABLE' AND owner = 'SYSTEM' AND owner = 'SYSTEM' AND created >= to_date('01-MAY-2019','DD-MON-YYYY')";
 				
 				ResultSet rs = c1.s.executeQuery(q);
 				 
@@ -255,12 +254,19 @@ public class ReadTables extends JFrame implements ActionListener{
 			//creating the check box for total no of columns
 			c2 = new JCheckBox[count];
 			
+			panel4 = new Panel[list2.size()];
 			panel3 = new Panel[list2.size()];
-			
+			tname = new JLabel[list2.size()];
 			for(int i = 0 ; i < list2.size() ; i++){
 				
 				panel2 = new Panel[totalColumns.get(i)];
 				panel3[i] = new Panel();
+				panel4[i] = new Panel();
+				
+//				list4.add(list2.get(i));
+				
+				tname[i] = new JLabel(list2.get(i));
+				panel4[i].add(tname[i]);
 				
 				//adding the total columns of a table in a panel
 				for(int j = 0 ; j < totalColumns.get(i) ; j++){
@@ -275,6 +281,7 @@ public class ReadTables extends JFrame implements ActionListener{
 					panel2[j].setBackground(Color.WHITE);
 					
 					panel2[j].add(c2[counter]);
+					
 					panel3[i].add(panel2[j]);
 					counter++;
 				}
@@ -282,10 +289,20 @@ public class ReadTables extends JFrame implements ActionListener{
 			
 				//button4.setEnabled(false);
 				button3.setVisible(false);
-				panel3[i].setLayout(new GridLayout(totalColumns.get(i),1));
+				
+				//To display table name
+				panel4[i].setLayout(new GridLayout(1,1));
+				panel4[i].setBackground(Color.WHITE);
+				panel4[i].setBounds(50+i*150,600,130,40);
+				
+				add(panel4[i]);
+				
+				//to display columns
+				panel3[i].setLayout(new GridLayout(totalColumns.get(i)+1,1));
 				panel3[i].setBackground(Color.WHITE);
 				setSize(800,900);
 				panel3[i].setBounds(50+i*150,650,130,150);
+				
 				add(panel3[i]);
 				
 			
@@ -297,6 +314,8 @@ public class ReadTables extends JFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e){
 					JOptionPane.showMessageDialog(null, "Data Downloaded");
 					setVisible(false);
+					
+					Date date = new Date();
 					
 					StringBuilder builder2 = new StringBuilder();
 					for(int i = 0; i < newColumn.length; i++){
@@ -330,7 +349,6 @@ public class ReadTables extends JFrame implements ActionListener{
 						writer.write(builder.toString());
 						writer.close();
 					}catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -371,7 +389,7 @@ public class ReadTables extends JFrame implements ActionListener{
 					}
 					
 					//Made an array to make a count the no. of columns selected by the user from each table
-					countColumns  = new int[5];
+					countColumns  = new int[10];
 				
 					int k1 = 0, k2=0,count=0, counter2 = 0;
 					boolean flag = false;
@@ -404,17 +422,19 @@ public class ReadTables extends JFrame implements ActionListener{
 					
 					}
 	
-					int counter = 0;
+					int counter = 0,counter1 = 0;
 					newTable = new String[10][10];
 					newColumn = new String[getColumn.size()];
 					int cCount = 0, rCount = 0, countCol = 0;
 					try{
 						
+					
 						for(int i = 0 ; i < getTable.size() ; i++){
-							
+
 							for(int j = 0 ; j < countColumns[i] ; j++){
 							
-								String q = "select "+getColumn.get(counter)+" from "+getTable.get(i)+"";
+								String q = "select "+getColumn.get(counter)+"  from "+getTable.get(counter1)+""; //sjksajdskadkjsdsdsadjsjkdasdjksas
+								System.out.println(q);
 								
 								ResultSet rs = c1.s.executeQuery(q);
 								
@@ -424,11 +444,13 @@ public class ReadTables extends JFrame implements ActionListener{
 								}
 								cCount = 0;
 								rCount++;
+								
 								newColumn[countCol] = getColumn.get(counter);
 								countCol++;
 								counter++;
+								counter1++;
 								}
-								
+	
 						}
 								
 						newJointTable = new JTable(newTable ,newColumn);

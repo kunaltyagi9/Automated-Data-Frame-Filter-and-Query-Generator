@@ -9,7 +9,7 @@ public class login extends JFrame implements ActionListener{
 	JTextField t1;
 	JPasswordField p1; 
 	JButton b1,b2;
-	JCheckBox c1;
+	JCheckBox c2;
 	 
 	login(){
 		
@@ -23,7 +23,7 @@ public class login extends JFrame implements ActionListener{
 		b1 = new JButton("Login");
 		b2 = new JButton("Clear");
 		
-		c1 = new JCheckBox("Show Password");
+		c2 = new JCheckBox("Show Password");
 		
 		ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("Images/avatar.png"));
 		Image i2 = i1.getImage().getScaledInstance(128, 128,Image.SCALE_DEFAULT);
@@ -43,8 +43,8 @@ public class login extends JFrame implements ActionListener{
 		p1.setBounds(250,80,200,20);
 		add(p1);
 		
-		c1.setBounds(250,110,200,15);
-		add(c1);
+		c2.setBounds(250,110,200,15);
+		add(c2);
 		
 		b1.setBounds(250,150,80,20);
 		add(b1);
@@ -67,7 +67,8 @@ public class login extends JFrame implements ActionListener{
 		b2.setBackground(Color.black);
 		b2.setForeground(Color.WHITE);
 		
-		c1.setBackground(Color.white);
+		c2.addActionListener(this);
+		c2.setBackground(Color.white);
 		
 		b1.addActionListener(this);
 		b2.addActionListener(this);
@@ -85,6 +86,12 @@ public class login extends JFrame implements ActionListener{
 			
 			ResultSet rs = c1.s.executeQuery(q);
 			
+			if(c2.isSelected()){
+				p1.setEchoChar((char)0);
+			}else{
+				p1.setEchoChar('*');
+			}
+			
 			if(ae.getSource()==b1){
 				if(rs.next()){		
 					new Index().setVisible(true);
@@ -98,6 +105,7 @@ public class login extends JFrame implements ActionListener{
 				t1.setText("");
 				p1.setText("");
 			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -176,7 +176,7 @@ public class ReadTextFile extends JFrame implements ActionListener{
 			
 			table2 = new JTable(model1);
 
-			panel.setVisible(false);
+			panel.setVisible(false);	
 			pane2 = new JScrollPane(table2);
     		
 			setLayout(null);
