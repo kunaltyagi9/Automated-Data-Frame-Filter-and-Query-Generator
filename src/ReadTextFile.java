@@ -105,6 +105,7 @@ public class ReadTextFile extends JFrame implements ActionListener{
 				table1.setModel(model);
 	
 			}
+			button1.setEnabled(false);
 
 		}
 		if(ae.getSource()==button2){
@@ -183,12 +184,14 @@ public class ReadTextFile extends JFrame implements ActionListener{
 			
 			repaint();
 			
+			button2.setEnabled(false);
 			pane2.setBounds(10,10,560,400);
 			add(pane2); 
 			setVisible(true);
 			
 		}else if(ae.getSource()==button3){
 			new ReadFile();
+			this.setVisible(false);
 		}
 	}
 	

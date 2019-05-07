@@ -12,15 +12,30 @@ import javax.swing.table.*;
 public class ReadCSVFile extends JFrame implements ActionListener{
     
 	JTable table;
-	JButton b1;
+	JButton button1,button2;
 	public static String heading[] =  {"abcsd"};
 	String header;
+	JLabel l1;
 
     public ReadCSVFile() {
     	super("CSV File Data in the form of Table");
+    	l1 = new JLabel("Choose file by clicking on \"Read File\" button");
 
-        b1 = new JButton("Read File");
-        add(b1, BorderLayout.SOUTH);
+        button1 = new JButton("Read File");
+        button2 = new JButton("Back");
+        
+        setLayout(null);
+        
+        l1.setBounds(30,30,300,20);
+		add(l1);
+		
+
+    	button1.setBounds(10,420,270,30);
+        add(button1);
+
+    	button2.setBounds(300,420,270,30);
+        add(button2);
+
      
         table = new JTable(new MyModel());
         table.setPreferredScrollableViewportSize(new Dimension(700, 70));
@@ -28,20 +43,29 @@ public class ReadCSVFile extends JFrame implements ActionListener{
         
         add(table, BorderLayout.CENTER);
         
-        b1.setBackground(Color.BLACK);
-        b1.setForeground(Color.WHITE);
+        button1.setBackground(Color.BLACK);
+        button1.setForeground(Color.WHITE);
         
-        b1.addActionListener(this);
+        button2.setBackground(Color.BLACK);
+        button2.setForeground(Color.WHITE);
+        
+        button1.addActionListener(this);
+        button2.addActionListener(this);
 
-        setSize(700,600);
+        
+        getContentPane().setBackground(Color.WHITE);
+
+        setSize(600,500);
         setVisible(true);
-        setLocation(600,150);
+        setLocation(600,200);
+
         
     }
     
     public void getFile(File file){
     
-    	DefaultTableModel model = null;
+    	
+   		DefaultTableModel model = null;
 
     	try{
 
@@ -63,35 +87,50 @@ public class ReadCSVFile extends JFrame implements ActionListener{
     
     public void actionPerformed(ActionEvent ae){
 
-    	File file = null;
     	
-		JFileChooser chooser = new JFileChooser("C:/Users/768970/Desktop/Databases");
-		chooser.setAcceptAllFileFilterUsed(false); 
-		FileNameExtensionFilter restrict = new FileNameExtensionFilter("Only .csv files", "csv"); 
-	    chooser.addChoosableFileFilter(restrict);
+    	if(ae.getSource()==button1){
 
-	    int result = chooser.showOpenDialog(table);
-		if(result == JFileChooser.APPROVE_OPTION) {
-			file = chooser.getSelectedFile();
-			getFile(file);
-		}
+    		File file = null;
+    		l1.setVisible(false);
+    	
+    		JFileChooser chooser = new JFileChooser("C:/Users/768970/Desktop/Databases");
+    		chooser.setAcceptAllFileFilterUsed(false); 
+    		FileNameExtensionFilter restrict = new FileNameExtensionFilter("Only .csv files", "csv"); 
+    		chooser.addChoosableFileFilter(restrict);
+
+    		int result = chooser.showOpenDialog(table);
+    		if(result == JFileChooser.APPROVE_OPTION) {
+    			file = chooser.getSelectedFile();
+    			getFile(file);
+    		}
 	    
-	    table.setBorder(new EmptyBorder(5, 5, 5, 5));
-        CSVFile Rd = new CSVFile();
-        MyModel NewModel = new MyModel();
-        table.setModel(NewModel);
+    		table.setBorder(new EmptyBorder(5, 5, 5, 5));
+    		CSVFile Rd = new CSVFile();
+    		MyModel NewModel = new MyModel();
+    		table.setModel(NewModel);
 
 	    
-	    ArrayList<String[]> Rs2 = Rd.ReadCSVfile(file);
-        NewModel.AddCSVData(Rs2);
-        System.out.println("Rows: " + NewModel.getRowCount());
-        System.out.println("Cols: " + NewModel.getColumnCount());
+    		ArrayList<String[]> Rs2 = Rd.ReadCSVfile(file);
+    		NewModel.AddCSVData(Rs2);
         
-        JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
-	}			
+    		JScrollPane scrollPane = new JScrollPane(table);
+    		
+    		button1.setEnabled(false);
+    		
+    		this.repaint();
+    		
+			setLayout(null);
+			scrollPane.setBounds(10,10,560,400);
+			add(scrollPane); 
+			setVisible(true);
+    	
+    	}else if(ae.getSource()==button2){
+    		new ReadFile();
+    		this.setVisible(false);
+    	}
+    }
 
-    // Method for reading CSV file
+    	// Method for reading CSV file
     public class CSVFile {
         private final ArrayList<String[]> Rs = new ArrayList<String[]>();
         private String[] OneRow;

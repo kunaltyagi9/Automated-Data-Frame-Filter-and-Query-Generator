@@ -15,17 +15,18 @@ import org.w3c.dom.*;
 
 public class ReadFile extends JFrame implements ActionListener{
 
-	JLabel l1;
+	JLabel l1,l2;
 	
 	JFrame frame;
 	JTextArea tarea;
 	JButton readButton;
 	JComboBox cb;
-	JScrollPane scrollableTextArea;
 	
     ReadFile(){
     	
     	l1 = new JLabel("Choose File : ");
+    	l2 = new JLabel("Choose file by clicking on \"Open File\" button");
+    	
 
         tarea = new JTextArea(410, 410);
         readButton = new JButton("OPEN FILE");
@@ -34,9 +35,6 @@ public class ReadFile extends JFrame implements ActionListener{
         cb= new JComboBox(files);    
         cb.setBackground(Color.WHITE);
         
-        scrollableTextArea = new JScrollPane(tarea); 
-        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollableTextArea.setBackground(Color.WHITE); 
         
         readButton.setBackground(Color.BLACK);
         readButton.setForeground(Color.WHITE);
@@ -46,6 +44,9 @@ public class ReadFile extends JFrame implements ActionListener{
         l1.setBounds(40,10,100,30);
         add(l1);
         
+        l2.setBounds(40,80,300,20);
+		add(l2);
+        
         cb.setBounds(160,10,200,30);
         add(cb);
         
@@ -54,9 +55,6 @@ public class ReadFile extends JFrame implements ActionListener{
         
         getContentPane().setBackground(Color.WHITE);
 
-        scrollableTextArea.setBounds(20,50,650,430);
-        getContentPane().add(scrollableTextArea);  
-        
         setVisible(true);
         
      

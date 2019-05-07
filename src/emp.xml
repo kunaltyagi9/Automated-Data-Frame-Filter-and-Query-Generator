@@ -1,0 +1,32 @@
+<Organization>
+	<Emp id="101">
+		<Name>Rajeev</Name>
+		<Age>25</Age>
+		<Salary>20000</Salary>
+		<Designation>Tester</Designation>
+	</Emp>
+	<Emp id="102">
+		<Name>Rajshekhar</Name>
+		<Age>35</Age>
+		<Salary>40000</Salary>
+		<Designation>Tester</Designation>
+	</Emp>
+	<Emp id="201">
+		<Name>Manoj</Name>
+		<Age>29</Age>
+		<Salary>30000</Salary>
+		<Designation>Programmer</Designation>
+	</Emp>
+	<Emp id="202">
+		<Name>Manisha</Name>
+		<Age>32</Age>
+		<Salary>60000</Salary>
+		<Designation>Developer</Designation>
+	</Emp>
+	<Emp id="301">
+		<Name>Kiran</Name>
+		<Age>45</Age>
+		<Salary>95000</Salary>
+		<Designation>Manager</Designation>
+	</Emp>
+</Organization>
